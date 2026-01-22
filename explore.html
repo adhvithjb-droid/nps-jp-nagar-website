@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Explore Classes</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+    margin:0;
+    font-family: Arial, sans-serif;
+    background:#eef2f7;
+}
+
+.header{
+    background:#004080;
+    color:white;
+    padding:15px;
+    text-align:center;
+}
+
+.container{
+    max-width:1000px;
+    margin:auto;
+    padding:15px;
+}
+
+select,button{
+    width:100%;
+    max-width:350px;
+    padding:12px;
+    margin:10px 0;
+    font-size:16px;
+}
+
+.details{
+    background:white;
+    padding:20px;
+    border-radius:8px;
+    margin-top:20px;
+}
+
+.details h3{
+    color:#003366;
+}
+
+img{
+    width:100%;
+    max-width:350px;
+    display:block;
+    margin:15px auto;
+}
+
+iframe{
+    width:100%;
+    height:260px;
+    border:0;
+    border-radius:8px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <h2>Select Class & Section</h2>
+</div>
+
+<div class="container">
+
+<select id="classSelect" onchange="loadSections()">
+<option value="">-- Select Class --</option>
+<option value="3">Class 3</option>
+<option value="4">Class 4</option>
+<option value="5">Class 5</option>
+<option value="6">Class 6</option>
+<option value="7">Class 7</option>
+<option value="8">Class 8</option>
+<option value="9">Class 9</option>
+<option value="ek">E-Karnataka (Computer Lab)</option>
+</select>
+
+<select id="sectionSelect" style="display:none;"></select>
+
+<button onclick="showDetails()">Show Details</button>
+
+<div id="output"></div>
+
+</div>
+
+<script>
+const sections = {
+3: { A:"Bagalkot", B:"Bellary", C:"Vijayanagara", D:"Bidar", E:"Bengaluru South" },
+4: { A:"Chamarajanagar", B:"Chikkaballapura", C:"Chikkamagaluru", D:"Chitradurga", E:"Dakshina Kannada" },
+5: { A:"Davanagere", B:"Dharwad", C:"Bengaluru Urban", D:"Hassan", E:"Belagavi", F:"Kodagu" },
+6: { A:"Kalaburagi", B:"Kolar", C:"Koppal", D:"Mysuru" },
+7: { A:"Raichur", B:"Shivamogga", C:"Tumakuru" },
+8: { A:"Udupi", B:"Uttar Kannada", C:"Ramanagara", D:"Mandya" },
+9: { A:"Timeline of Bengaluru" }
+};
+
+function loadSections(){
+    const cls = classSelect.value;
+    sectionSelect.innerHTML = "";
+
+    if(cls === "" || cls === "ek"){
+        sectionSelect.style.display = "none";
+        return;
+    }
+
+    sectionSelect.style.display = "block";
+
+    for(let sec in sections[cls]){
+        sectionSelect.innerHTML += `<option value="${sec}">${sec}</option>`;
+    }
+}
+
+function showDetails(){
+    const cls = classSelect.value;
+    const secLetter = sectionSelect.value;
+    let html = "";
+
+    if(cls === "ek"){
+        html = `
+        <div class="details">
+        <h3>E-Karnataka – Computer Lab</h3>
+
+        <img src="computer-karnataka.png">
+
+        <ul>
+            <li>Students learn basic computer operations</li>
+            <li>Understanding hardware and software</li>
+            <li>Keyboard, mouse, and typing skills</li>
+            <li>Digital awareness and cyber safety</li>
+            <li>Using computers for learning and creativity</li>
+            <li>Karnataka-based digital educational content</li>
+        </ul>
+        </div>`;
+    } 
+    else {
+        const district = sections[cls][secLetter];
+
+        html = `
+        <div class="details">
+        <h3>Class ${cls} – Section ${secLetter}</h3>
+
+        <p>
+        In this section, students explore the district of <b>${district}</b>
+        through art integrated learning. They study its geography,
+        culture, traditions, important places, and digital representation.
+        </p>
+
+        <ul>
+            <li>Location of ${district} in Karnataka</li>
+            <li>Cultural and historical importance</li>
+            <li>Famous landmarks and specialties</li>
+            <li>Art and craft related to the district</li>
+            <li>Use of digital tools for presentation</li>
+        </ul>
+
+        <iframe src="https://www.google.com/maps?q=${district},Karnataka&output=embed"></iframe>
+        </div>`;
+    }
+
+    output.innerHTML = html;
+}
+</script>
+
+</body>
+</html>
